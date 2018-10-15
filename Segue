@@ -1,0 +1,313 @@
+//
+
+//  ViewController.h
+
+//  DesafioLoginSenha
+
+//
+
+//  Created by Sábado on 04/10/14.
+
+//  Copyright (c) 2014 RUI TOLEDO. All rights reserved.
+
+//
+
+ 
+
+#import <UIKit/UIKit.h>
+
+ 
+
+@interface ViewController : UIViewController<UIAlertViewDelegate, UITextFieldDelegate>
+
+ 
+
+ 
+
+- (IBAction)botaoCadastrar:(UIButton *)sender;
+
+ 
+
+- (IBAction)botaoAcessar:(UIButton *)sender;
+
+ 
+
+@property (weak, nonatomic) IBOutletUITextField *textFieldLogin;
+
+ 
+
+@property (weak, nonatomic) IBOutletUITextField *textFieldSenha;
+
+ 
+
+@property (weak, nonatomic) IBOutletUIButton *cadastrar;
+
+ 
+
+@property (weak, nonatomic) IBOutletUIButton *acessar;
+
+ 
+
+ 
+
+@property(nonatomic, strong) NSString *loginCadastrado;
+
+@property(nonatomic, strong) NSString *senhaCadastrada;
+
+ 
+
+ 
+
+@end
+
+ 
+
+//
+
+//  ViewController.m
+
+//  DesafioLoginSenha
+
+//
+
+//  Created by Sábado on 04/10/14.
+
+//  Copyright (c) 2014 RUI TOLEDO. All rights reserved.
+
+//
+
+ 
+
+#import "ViewController.h"
+
+ 
+
+@interfaceViewController ()
+
+ 
+
+@end
+
+ 
+
+@implementation ViewController
+
+ 
+
+- (void)viewDidLoad
+
+{
+
+    [superviewDidLoad];
+
+// Do any additional setup after loading the view, typically from a nib.
+
+    self.textFieldLogin.delegate=self;
+
+    self.textFieldSenha.delegate=self;
+
+    
+
+    self.textFieldSenha.secureTextEntry=YES;
+
+    
+
+    
+
+}
+
+ 
+
+- (void)didReceiveMemoryWarning
+
+{
+
+    [superdidReceiveMemoryWarning];
+
+    // Dispose of any resources that can be recreated.
+
+}
+
+ 
+
+- (IBAction)botaoCadastrar:(UIButton *)sender
+
+{
+
+    if (self.textFieldLogin.text.length>0  && self.textFieldSenha.text.length>0)
+
+    {
+
+        self.loginCadastrado=self.textFieldLogin.text;
+
+        self.senhaCadastrada=self.textFieldSenha.text;
+
+        [self.textFieldSenharesignFirstResponder];
+
+        [self.textFieldLoginresignFirstResponder];
+
+        self.textFieldLogin.hidden=YES;
+
+        self.textFieldSenha.hidden=YES;
+
+        self.cadastrar.hidden=YES;
+
+    }
+
+    
+
+    else
+
+    {
+
+        UIAlertView *alertaSimples = [[UIAlertViewalloc] initWithTitle:@"Alerta!"message:@"Preencha corretamente os campos para completar seu cadastro"delegate:nilcancelButtonTitle:nilotherButtonTitles:@"Ok", nil];
+
+        
+
+        [alertaSimples show];
+
+    }
+
+    
+
+}
+
+ 
+
+- (IBAction)botaoAcessar:(UIButton *)sender
+
+{
+
+    
+
+    if (self.loginCadastrado.length>0 && self.senhaCadastrada.length>0)
+
+    {
+
+        
+
+        UIAlertView *alertaLoginSenha = [[UIAlertViewalloc] initWithTitle:@"Atenção!"message:@"Efetue seu Login"delegate:selfcancelButtonTitle:@"Cancelar"otherButtonTitles:@"Ok", nil];
+
+        
+
+        alertaLoginSenha.alertViewStyle= UIAlertViewStyleLoginAndPasswordInput;
+
+        
+
+        alertaLoginSenha.tag=1;
+
+        
+
+        [alertaLoginSenha show];
+
+    }
+
+    else
+
+    {
+
+   
+
+        UIAlertView *alertaSimples = [[UIAlertViewalloc] initWithTitle:@"Alerta!"message:@"Faça o Cadastro antes de prosseguir"delegate:nilcancelButtonTitle:@"Ok"otherButtonTitles:nil];
+
+        
+
+        [alertaSimples show];
+
+        
+
+    }
+
+ 
+
+}
+
+ 
+
+-(void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
+
+{
+
+    if (alertView.tag==1)
+
+    
+
+    {
+
+        
+
+        if (buttonIndex==1)
+
+        {
+
+            UITextField *textLogin = [alertView textFieldAtIndex:0];
+
+            UITextField *textSenha = [alertView textFieldAtIndex:1];
+
+ 
+
+            if ([textLogin.text isEqualToString:self.loginCadastrado] && [textSenha.text isEqualToString:self.senhaCadastrada])
+
+            {
+
+                [selfperformSegueWithIdentifier:@"segueTela2"sender:nil];
+
+            }
+
+            else
+
+            {
+
+                UIAlertView *alertaSimples = [[UIAlertViewalloc] initWithTitle:@"Alerta!"message:@"Login/Senha Invalidos"delegate:nilcancelButtonTitle:nilotherButtonTitles:@"Ok", nil];
+
+                
+
+                [alertaSimples show];
+
+            }
+
+            
+
+            
+
+        }
+
+    }
+
+}
+
+ 
+
+-(BOOL)textFieldShouldReturn:(UITextField *)textField
+
+{
+
+    if ([textField isEqual:self.textFieldLogin])
+
+    {
+
+        [self.textFieldSenhabecomeFirstResponder];
+
+    }
+
+    else
+
+    {
+
+        [self.textFieldLoginbecomeFirstResponder];
+
+    }
+
+    
+
+    returnYES;
+
+}
+
+ 
+
+ 
+
+ 
+
+@end
